@@ -1,77 +1,68 @@
 import java.util.*;
-
-public class Afbau
-{
-    static Node root;
-
-    class Node
-    {
+class Afbau{
+    Node root;
+    class Node{
         int data;
-        Node left;
-        Node right;
-
-        Node(int data)
-        {
-            this.data=data;
-            left=right=null;
+        Node left, right;
+        Node(int data){
+            this.data = data;
+            left = right = null;
         }
     }
-
-    public Node insert(Node node, int data)
-    {
-        if(node==null)
-        {
-            return new Node(data);
+        Afbau(){
+            root = null;
         }
-
-        if(data<node.data)
-        {
-            if(node.left!=null)
-            {
-                insert(node.left, data);
+        void insert(int data){
+            root = insertRec(root,data);
+        }
+        Node insertRec(Node root, int data){
+            if(root == null){
+                root = new Node(data);
+                return root;
             }
-            else
-                node.left=new Node(data);
-        }
-        else if(data>node.data)
-        {
-            if(node.right!=null)
-            {
-                insert(node.right, data);
+            else if(data < root.data){
+                root.left = insertRec(root.left,data);
             }
-            else
-                node.right=new Node(data);
+            else if(data > root.data){
+                root.right = insertRec(root.right,data);
+            }
+            return root;
         }
-        return node;
-    }
-
-    public void add(int data)
-    {
-        root=insert(root, data);
-    }
-
-    public void display(Node node)
-    {
-        if(node!=null)
-        {
-			System.out.print(" "+node.data);
-            display(node.left);
-            display(node.right);
+        public int height(Node root){
+            if(root == null){
+                return 0;
+            }
+            else{
+            int lh = height(root.left); 
+            int rh = height(root.right);
+            if(lh > rh){
+                return lh+1;
+            } else{
+                return rh+1;
+            }
         }
     }
-
-    public static void main(String args[])
-    {
-        Afbau bt = new Afbau();
-         
-        bt.add(40);
-        bt.add(30);
-        bt.add(20);
-        bt.add(35);
-        bt.add(70);
-		bt.add(50);
-		bt.add(80);
-		
-        bt.display(root);
+     void afbau()  { 
+           afbauRec(root); 
+         } 
+       void afbauRec(Node root) { 
+        if (root != null) { 
+            System.out.print(" "+root.data); 
+            afbauRec(root.left);
+           afbauRec(root.right);  
+        } 
+    } 
+    
+    public static void main(String args[]){
+       Afbau tree = new Afbau();
+        tree.insert(40);
+        tree.insert(30);
+        tree.insert(20);
+        tree.insert(35);
+        tree.insert(70);
+        tree.insert(50);
+        tree.insert(80);
+        
+        tree.afbau();
     }
 }
